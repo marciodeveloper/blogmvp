@@ -20,7 +20,12 @@
             <?= $article->created->format(DATE_RFC850) ?>
         </td>
         <td>
-            <?= $this->Html->link('Editar', ['action' => 'edit', $article->id]) ?>
+            <?= $this->Form->postLink(
+                'Deletar',
+                ['action' => 'delete', $article->id],
+                ['confirm' => 'Tem certeza?'])
+            ?>
+            <?= $this->Html->link('Edit', ['action' => 'edit', $article->id]) ?>
         </td>
     </tr>
     <?php endforeach; ?>
