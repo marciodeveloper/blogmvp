@@ -30,6 +30,12 @@ class ArticlesTable extends Table
      */
     public function initialize(array $config)
     {
+        $this->addBehavior('Timestamp');
+        // Just add the belongsTo relation with CategoriesTable
+        $this->belongsTo('Categories', [
+            'foreignKey' => 'category_id',
+        ]);
+        
         parent::initialize($config);
 
         $this->setTable('articles');
