@@ -33,7 +33,8 @@ class ArticlesTable extends Table
         $this->addBehavior('Timestamp');
         // Just add the belongsTo relation with CategoriesTable
         $this->belongsTo('Categories', [
-            'foreignKey' => 'category_id',
+            'className' => 'Categories',
+            'foreignKey' => 'category_id'
         ]);
         
         parent::initialize($config);
@@ -67,5 +68,10 @@ class ArticlesTable extends Table
             ->allowEmptyString('body');
 
         return $validator;
+    }
+
+    public function isOwnedBy($articleId, $userId)
+    {
+        return $this->exists(['id' => $articleId, 'user_id' => $userId]);
     }
 }

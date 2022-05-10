@@ -19,11 +19,10 @@
     <fieldset>
         <legend><?= __('Add Category') ?></legend>
         <?php
-            echo $this->Form->input('parent_id', [
+            echo $this->Form->control('parent_id', [
                 'options' => $parentCategories,
-                'empty' => 'No parent category'
+                'empty' => 'No Parent categoty'
             ]);
-            echo $this->Form->control('parent_id', ['options' => $parentCategories]);
             echo $this->Form->control('name');
             echo $this->Form->control('description');
         ?>

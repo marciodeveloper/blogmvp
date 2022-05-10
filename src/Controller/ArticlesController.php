@@ -48,14 +48,19 @@ class ArticlesController extends AppController
         $article = $this->Articles->newEntity();
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
+            $article->user_id = $this->Auth->user('id');
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('Seu artigo foi salvo!'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('Não é possível adicionar o seu artigo!'));
         }
-        $this->set(compact('article'));
+        $this->set('article', $article);
+
+        // Just added the categories list to be able to choose
+        // one category for an article
+        $categories = $this->Articles->Categories->find('treeList');
+        $this->set(compact('article', 'categories'));
     }
 
     /**
@@ -79,7 +84,11 @@ class ArticlesController extends AppController
             }
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
-        $this->set(compact('article'));
+        
+        // Just added the categories list to be able to choose
+        // one category for an article
+        $categories = $this->Articles->Categories->find('treeList');
+        $this->set(compact('article', 'categories'));
     }
 
     /**
@@ -100,5 +109,23 @@ class ArticlesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function isAuthorized($user)
+    {
+        // Todos os usuários registrados podem adicionar artigos
+        if ($this->request->getParam('action') === 'add') {
+            return true;
+        }
+
+        // Apenas o proprietário do artigo pode editar e excluí
+        if (in_array($this->request->getParam('action'), ['edit', 'delete'])) {
+            $articleId = (int)$this->request->getParam('pass.0');
+            if ($this->Articles->isOwnedBy($articleId, $user['id'])) {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
     }
 }
