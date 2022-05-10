@@ -4,16 +4,14 @@
  * @var \App\Model\Entity\Category[]|\Cake\Collection\CollectionInterface $categories
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Novo Artigo'), ['controller' => 'Articles', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('Categorias'), ['controller' => 'Categories', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('Nova Categoria'), ['action' => 'add']) ?></li>
-        
-        
-    </ul>
-</nav>
+<div class="header">
+  <a href="#default" class="logo">Samplemed</a>
+  <div class="header-right">
+    <?= $this->Html->link(__('Novo Artigo'), ['controller' => 'Articles', 'action' => 'add']) ?>
+    <?= $this->Html->link(__('Categorias'), ['controller' => 'Categories', 'action' => 'index']) ?>
+    <?= $this->Html->link(__('Nova Categoria'), ['action' => 'add']) ?>
+  </div>
+</div>
 <div class="categories index large-9 medium-8 columns content">
     <h3><?= __('Artigos') ?></h3>
 
